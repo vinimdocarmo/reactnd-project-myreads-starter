@@ -1,17 +1,10 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+
+import bookType from "./types/book";
 
 export default class BookItem extends Component {
   static propTypes = {
-    book: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      imageLinks: PropTypes.shape({
-        thumbnail: PropTypes.string.isRequired
-      }).isRequired,
-      shelf: PropTypes.string.isRequired,
-      authors: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired
+    book: bookType.isRequired
   };
 
   render() {
