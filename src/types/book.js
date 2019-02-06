@@ -6,6 +6,6 @@ export default PropTypes.shape({
   imageLinks: PropTypes.shape({
     thumbnail: PropTypes.string.isRequired
   }).isRequired,
-  shelf: PropTypes.string.isRequired,
+  shelf: PropTypes.string,
   authors: PropTypes.arrayOf(PropTypes.string)
 });

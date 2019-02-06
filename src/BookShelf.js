@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import bookType from "./types/book";
 import shelfType from "./types/shelf";
-import BookItem from "./BookItem";
+import BooksGrid from "./BooksGrid";
 
 export default class BookShelf extends Component {
   static propTypes = {
@@ -28,11 +28,7 @@ export default class BookShelf extends Component {
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.shelfName(shelf)}</h2>
         <div className="bookshelf-books">
-          <ol className="books-grid">
-            {books.map(book => (
-              <BookItem key={book.id} book={book} />
-            ))}
-          </ol>
+          <BooksGrid books={books} />
         </div>
       </div>
     );
