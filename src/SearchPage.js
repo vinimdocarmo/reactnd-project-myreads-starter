@@ -7,7 +7,8 @@ import BooksGrid from "./BooksGrid";
 
 class SearchPage extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    onShelfChange: PropTypes.func.isRequired
   };
 
   state = {
@@ -30,7 +31,7 @@ class SearchPage extends Component {
   };
 
   render() {
-    const { history } = this.props;
+    const { history, onShelfChange } = this.props;
     const { books } = this.state;
 
     return (
@@ -48,7 +49,7 @@ class SearchPage extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <BooksGrid books={books} />
+          <BooksGrid books={books} onShelfChange={onShelfChange} />
         </div>
       </div>
     );

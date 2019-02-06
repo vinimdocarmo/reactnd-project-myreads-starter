@@ -2,39 +2,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
-import * as BooksAPI from "./BooksAPI";
 import BookShelf from "./BookShelf";
 
 class MainPage extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired
-  };
-
-  state = {
-    booksByShelf: {}
-  };
-
-  componentDidMount = () => {
-    BooksAPI.getAll().then(books =>
-      this.setState({ booksByShelf: this.booksByShelf(books) })
-    );
-  };
-
-  booksByShelf = books => {
-    const shelfs = {};
-
-    books.forEach(book => {
-      shelfs[book.shelf] = shelfs[book.shelf] || [];
-
-      shelfs[book.shelf].push(book);
-    });
-
-    return shelfs;
+    history: PropTypes.object.isRequired,
+    onShelfChange: PropTypes.func.isRequired,
+    booksByShelf: PropTypes.object.isRequired
   };
 
   render() {
-    const { history } = this.props;
-    const { booksByShelf } = this.state;
+    const { history, onShelfChange, booksByShelf } = this.props;
 
     return (
       <div className="list-books">
@@ -48,6 +26,7 @@ class MainPage extends Component {
                 key={shelf}
                 shelf={shelf}
                 books={booksByShelf[shelf]}
+                onShelfChange={onShelfChange}
               />
             ))}
           </div>

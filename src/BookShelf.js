@@ -5,10 +5,11 @@ import bookType from "./types/book";
 import shelfType from "./types/shelf";
 import BooksGrid from "./BooksGrid";
 
-export default class BookShelf extends Component {
+class BookShelf extends Component {
   static propTypes = {
     books: PropTypes.arrayOf(bookType).isRequired,
-    shelf: shelfType
+    shelf: shelfType,
+    onShelfChange: PropTypes.func.isRequired
   };
 
   shelfName = shelf => {
@@ -22,15 +23,17 @@ export default class BookShelf extends Component {
   };
 
   render() {
-    const { books, shelf } = this.props;
+    const { books, shelf, onShelfChange } = this.props;
 
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.shelfName(shelf)}</h2>
         <div className="bookshelf-books">
-          <BooksGrid books={books} />
+          <BooksGrid books={books} onShelfChange={onShelfChange} />
         </div>
       </div>
     );
   }
 }
+
+export default BookShelf;

@@ -1,14 +1,37 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 import bookType from "./types/book";
 
-export default class BookItem extends Component {
+class BookItem extends Component {
   static propTypes = {
-    book: bookType.isRequired
+    book: bookType.isRequired,
+    onShelfChange: PropTypes.func.isRequired
+  };
+
+  state = {
+    selectedShelf: this.props.book.shelf || "none"
+  };
+
+  handleShelfChange = event => {
+    const newShelf = event.target.value;
+
+    this.setState({ selectedShelf: newShelf });
+
+    this.props.onShelfChange(this.props.book, newShelf);
+  };
+
+  backgroundImage = book => {
+    try {
+      return { backgroundImage: `url("${book.imageLinks.thumbnail}")` };
+    } catch (error) {
+      return {};
+    }
   };
 
   render() {
     const { book } = this.props;
+    const { selectedShelf } = this.state;
 
     return (
       <div>
@@ -19,11 +42,11 @@ export default class BookItem extends Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: `url("${book.imageLinks.thumbnail}")`
+                ...this.backgroundImage(book)
               }}
             />
             <div className="book-shelf-changer">
-              <select>
+              <select onChange={this.handleShelfChange} value={selectedShelf}>
                 <option value="move" disabled>
                   Move to...
                 </option>
@@ -35,9 +58,11 @@ export default class BookItem extends Component {
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors.join(", ")}</div>
+          <div className="book-authors">{(book.authors || []).join(", ")}</div>
         </div>
       </div>
     );
   }
 }
+
+export default BookItem;
