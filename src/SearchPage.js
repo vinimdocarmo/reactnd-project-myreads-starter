@@ -9,7 +9,8 @@ import BooksGrid from "./BooksGrid";
 class SearchPage extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    onShelfChange: PropTypes.func.isRequired
+    onShelfChange: PropTypes.func.isRequired,
+    shelfByBookId: PropTypes.object.isRequired
   };
 
   state = {
@@ -31,6 +32,15 @@ class SearchPage extends Component {
       if (data.error === "empty query") {
         return this.setState({ books: [] });
       }
+
+      data.forEach(book => {
+        const { shelfByBookId } = this.props;
+
+        if (shelfByBookId[book.id]) {
+          book.shelf = shelfByBookId[book.id];
+        }
+      });
+
       this.setState({ books: data });
     });
   });

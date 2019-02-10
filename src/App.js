@@ -38,6 +38,18 @@ class BooksApp extends Component {
     return shelfs;
   };
 
+  get shelfByBookId() {
+    const { booksByShelf } = this.state;
+    const shelfByBookId = {};
+
+    Object.keys(this.state.booksByShelf).forEach(shelf => {
+      const books = booksByShelf[shelf] || [];
+      books.forEach(book => (shelfByBookId[book.id] = shelf));
+    });
+
+    return shelfByBookId;
+  }
+
   updateBookShelf = (updatedBook, newShelf) => {
     const { booksByShelf } = this.state;
     const newBooksByShelf = {};
@@ -79,7 +91,11 @@ class BooksApp extends Component {
         <Route
           path="/search"
           render={props => (
-            <SearchPage {...props} onShelfChange={this.handleShelfChange} />
+            <SearchPage
+              {...props}
+              onShelfChange={this.handleShelfChange}
+              shelfByBookId={this.shelfByBookId}
+            />
           )}
         />
       </div>
