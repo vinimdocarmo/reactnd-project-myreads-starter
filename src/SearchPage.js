@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import { debounce } from "throttle-debounce";
 
 import * as BooksAPI from "./BooksAPI";
 import BooksGrid from "./BooksGrid";
@@ -18,6 +19,10 @@ class SearchPage extends Component {
   handleSearch = event => {
     const query = event.target.value;
 
+    this.debouncedSearch(query);
+  };
+
+  debouncedSearch = debounce(300, query => {
     if (!query) {
       return this.setState({ books: [] });
     }
@@ -28,7 +33,7 @@ class SearchPage extends Component {
       }
       this.setState({ books: data });
     });
-  };
+  });
 
   render() {
     const { history, onShelfChange } = this.props;
